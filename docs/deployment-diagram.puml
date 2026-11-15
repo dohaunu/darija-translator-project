@@ -1,0 +1,19 @@
+@startuml
+node "User computer" {
+  artifact "Chrome Extension (MV3)" as Chrome
+  artifact "Python CLI" as Python
+  artifact "PHP web client" as PHP
+}
+node "Android/iOS device" { artifact "React Native (Expo)" as Mobile }
+node "WildFly / Jakarta EE server" {
+  artifact "darija-translator.war" as WAR
+  component "TranslatorResource + BasicAuth" as API
+  WAR -- API
+}
+cloud "Google Gemini API" as Gemini
+Chrome --> API : HTTPS/HTTP JSON + Basic Auth
+Python --> API : HTTP JSON + Basic Auth
+PHP --> API : HTTP JSON + Basic Auth
+Mobile --> API : HTTP JSON + Basic Auth
+API --> Gemini : HTTPS + API key
+@enduml

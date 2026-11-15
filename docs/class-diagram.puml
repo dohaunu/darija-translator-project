@@ -1,0 +1,21 @@
+@startuml
+skinparam classAttributeIconSize 0
+class TranslatorApplication
+class TranslatorResource {
+ +translate(request: TranslateRequest): Response
+ +options(): Response
+}
+class TranslateRequest { +text: String
+ +sourceLanguage: String }
+class TranslateResponse { +originalText: String
+ +translation: String
+ +sourceLanguage: String
+ +targetLanguage: String }
+class GeminiTranslationService { +translate(text: String, language: String): String }
+class BasicAuthMechanism { +validateRequest(request, response, context): AuthenticationStatus }
+class CorsFilter { +filter(request, response): void }
+TranslatorResource --> GeminiTranslationService : injects
+TranslatorResource ..> TranslateRequest
+TranslatorResource ..> TranslateResponse
+BasicAuthMechanism ..> TranslatorResource : protects endpoint
+@enduml
